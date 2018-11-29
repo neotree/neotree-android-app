@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ The MIT License (MIT)
+  ~ Copyright (c) 2016 Ubiqueworks Ltd and contributors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+  ~ files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+  ~ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  ~ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  ~ SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ~ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+  ~ OR OTHER DEALINGS IN THE SOFTWARE.
+  ~
+  -->
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="org.neotree.ui.activity.MainActivity">
+
+    <!-- AppBar -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/script_player_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/AppTheme.Toolbar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorScriptActionTextBackground"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/script_player_action_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/view_horizontal_spacing_default"
+                android:paddingRight="@dimen/view_horizontal_spacing_default"
+                android:paddingTop="@dimen/view_vertical_spacing_small"
+                android:paddingBottom="@dimen/view_vertical_spacing_small"
+                android:textColor="@color/colorScriptActionTextForeground"
+                android:textAllCaps="true"
+                tools:text="Action to take on screen"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+
+            <TextView
+                android:id="@+id/script_player_step_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorScriptActionTextForeground"
+                android:textStyle="bold"
+                android:paddingLeft="@dimen/view_horizontal_spacing_default"
+                android:paddingRight="@dimen/view_horizontal_spacing_default"
+                tools:text="1/2"/>
+
+        </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- Content -->
+    <FrameLayout
+        android:id="@+id/script_player_content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/script_player_next_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="bottom|end"
+        app:fabSize="normal"
+        app:backgroundTint="@color/colorActionNextBackground"
+        app:srcCompat="@drawable/ic_arrow_forward"
+        app:layout_anchor="@id/script_player_content_frame"
+        app:layout_anchorGravity="bottom|right|end"
+        android:visibility="gone"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/script_player_finish_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="bottom|end"
+        app:fabSize="normal"
+        app:backgroundTint="@color/colorActionNextBackground"
+        app:srcCompat="@drawable/ic_check"
+        app:layout_anchor="@id/script_player_content_frame"
+        app:layout_anchorGravity="bottom|right|end"
+        android:visibility="gone"/>
+
+</android.support.design.widget.CoordinatorLayout>

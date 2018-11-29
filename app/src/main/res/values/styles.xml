@@ -1,0 +1,159 @@
+<!--
+  ~ The MIT License (MIT)
+  ~ Copyright (c) 2016 Ubiqueworks Ltd and contributors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+  ~ files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+  ~ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  ~ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  ~ SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ~ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+  ~ OR OTHER DEALINGS IN THE SOFTWARE.
+  ~
+  -->
+
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorPrimary">@color/colorMainToolbarBackground</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorMainToolbarForeground</item>
+        <item name="android:textColorSecondary">@color/colorMainToolbarForeground</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorPrimary">@color/colorMainToolbarBackground</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColorPrimary">@color/colorMainToolbarForeground</item>
+        <item name="android:textColorSecondary">@color/colorMainToolbarForeground</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.Widget" parent="Widget.AppCompat.Button"/>
+
+    <style name="AppTheme.Widget.CheckableAnswer">
+        <item name="android:background">@drawable/checkable_answer_background</item>
+        <item name="android:textColor">@color/checkable_answer_text_color</item>
+        <item name="android:layout_marginTop">@dimen/view_vertical_spacing_small</item>
+        <item name="android:layout_marginBottom">@dimen/view_vertical_spacing_small</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/font_size_body</item>
+    </style>
+
+    <style name="AppTheme.Widget.Spinner.Underlined" parent="@style/Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textSize">@dimen/font_size_body</item>
+    </style>
+
+    <!-- Text Appearance -->
+    <style name="TextAppearance.AppCompat.Larger" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Body" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">@dimen/font_size_body</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Body.Accent" parent="@style/TextAppearance.NeoTree.Body">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Body.Black" parent="@style/TextAppearance.NeoTree.Body">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Body.Small" parent="@style/TextAppearance.NeoTree.Body">
+        <item name="android:textSize">@dimen/font_size_body_small</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Body.Small.Black" parent="@style/TextAppearance.NeoTree.Body.Small">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Caption" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">@dimen/font_size_caption</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Label" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">@dimen/font_size_label</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Label.Accent" parent="@style/TextAppearance.NeoTree.Label">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Summary" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">@dimen/font_size_summary</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Title" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">@dimen/font_size_title</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Title.Large" parent="@style/TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextAppearance.NeoTree.Error" parent="@style/TextAppearance.NeoTree.Body.Small">
+        <item name="android:textColor">@color/colorFieldError</item>
+    </style>
+
+    <!--<style name="TextAppearance.NeoTree.Body.White" parent="@style/TextAppearance.NeoTree.Body">-->
+    <!--<item name="android:textColor">@android:color/white</item>-->
+    <!--</style>-->
+
+
+
+    <!-- PDF text styles -->
+    <style name="TextAppearance.Pdf.Title" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Pdf.SubTitle" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Pdf.Caption" parent="@style/TextAppearance.AppCompat.Body2">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Pdf.Body" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Pdf.Body.Bold" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

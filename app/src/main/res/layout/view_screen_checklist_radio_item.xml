@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ The MIT License (MIT)
+  ~ Copyright (c) 2016 Ubiqueworks Ltd and contributors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+  ~ files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+  ~ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  ~ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  ~ SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ~ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+  ~ OR OTHER DEALINGS IN THE SOFTWARE.
+  ~
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff0000"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:id="@+id/checklist_item_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/card_vertical_padding"
+            android:paddingBottom="@dimen/card_vertical_padding"
+            android:paddingLeft="@dimen/card_horizontal_padding"
+            android:paddingRight="@dimen/card_horizontal_padding"
+            android:minHeight="?attr/listPreferredItemHeight"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/checklist_item_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.NeoTree.Title"
+                    tools:text="ITEM TITLE"/>
+
+                <TextView
+                    android:id="@+id/checklist_item_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_vertical_spacing_small"
+                    android:textAppearance="@style/TextAppearance.NeoTree.Summary"
+                    tools:text="ITEM SUMMARY"/>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/checklist_item_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingTop="@dimen/view_vertical_spacing_default"
+                android:paddingBottom="@dimen/view_vertical_spacing_smaller"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/checklist_item_radio_positive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/view_horizontal_spacing_small"
+                    android:textAppearance="@style/TextAppearance.NeoTree.Body"
+                    android:text="@string/label_checkitem_positive"/>
+
+                <RadioButton
+                    android:id="@+id/checklist_item_radio_negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/view_horizontal_spacing_small"
+                    android:textAppearance="@style/TextAppearance.NeoTree.Body"
+                    android:text="@string/label_checkitem_negative"
+                    tools:checked="true"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

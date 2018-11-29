@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ The MIT License (MIT)
+  ~ Copyright (c) 2016 Ubiqueworks Ltd and contributors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+  ~ files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+  ~ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  ~ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  ~ SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ~ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+  ~ OR OTHER DEALINGS IN THE SOFTWARE.
+  ~
+  -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/screen_timer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorTimerButtonBackground"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/screen_timer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="72sp"
+                    android:textColor="@color/colorScreenContentTextColor"
+                    tools:text="00:00"/>
+
+                <TextView
+                    android:id="@+id/screen_timer_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_vertical_spacing_default"
+                    android:layout_marginBottom="@dimen/view_vertical_spacing_default"
+                    android:layout_marginLeft="@dimen/view_horizontal_spacing_default"
+                    android:layout_marginRight="@dimen/view_horizontal_spacing_default"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorScreenContentTextColor"
+                    android:text="@string/label_screen_start_timer"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/screen_content_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorScreenContentTextColor"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginTop="@dimen/view_vertical_spacing_small"
+                android:layout_marginBottom="@dimen/view_vertical_spacing_large"
+                android:paddingLeft="@dimen/view_horizontal_spacing_default"
+                android:paddingRight="@dimen/view_horizontal_spacing_default"
+                android:gravity="center"
+                tools:text="What do you want me to do?"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/view_horizontal_spacing_default"
+                android:paddingRight="@dimen/view_horizontal_spacing_default"
+                android:orientation="horizontal">
+
+                <org.neotree.ui.view.NumberFieldView
+                    android:id="@+id/screen_timer_value_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorScreenContentTextColor"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/view_vertical_spacing_small"
+                    android:text="X"/>
+
+                <TextView
+                    android:id="@+id/screen_timer_multiplier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorScreenContentTextColor"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/view_vertical_spacing_small"
+                    android:paddingLeft="@dimen/view_horizontal_spacing_small"
+                    android:paddingRight="@dimen/view_horizontal_spacing_default"
+                    tools:text="1"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/screen_timer_result_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorScreenContentTextColor"
+                android:textAppearance="@style/TextAppearance.AppCompat.Larger"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/view_vertical_spacing_small"
+                android:paddingLeft="@dimen/view_horizontal_spacing_small"
+                android:paddingRight="@dimen/view_horizontal_spacing_default"
+                tools:text="4"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

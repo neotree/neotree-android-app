@@ -1,0 +1,68 @@
+<!--
+  ~ The MIT License (MIT)
+  ~ Copyright (c) 2016 Ubiqueworks Ltd and contributors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+  ~ files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+  ~ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  ~ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  ~ SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ~ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+  ~ OR OTHER DEALINGS IN THE SOFTWARE.
+  ~
+  -->
+
+<resources>
+    <!-- Font sizes -->
+    <dimen name="font_size_body_small">14sp</dimen>
+    <dimen name="font_size_body">18sp</dimen>
+    <dimen name="font_size_caption">12sp</dimen>
+    <dimen name="font_size_label">16sp</dimen>
+    <dimen name="font_size_summary">16sp</dimen>
+    <dimen name="font_size_title">18sp</dimen>
+
+    <!-- Default screen dimensions -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Default card dimensions -->
+    <dimen name="card_horizontal_padding">16dp</dimen>
+    <dimen name="card_vertical_padding">16dp</dimen>
+    <dimen name="card_vertical_spacing">16dp</dimen>
+
+    <!-- Default views's spacing -->
+    <dimen name="view_horizontal_spacing_smallest">2dp</dimen>
+    <dimen name="view_vertical_spacing_smallest">2dp</dimen>
+    <dimen name="view_horizontal_spacing_smaller">4dp</dimen>
+    <dimen name="view_vertical_spacing_smaller">4dp</dimen>
+    <dimen name="view_horizontal_spacing_small">8dp</dimen>
+    <dimen name="view_vertical_spacing_small">8dp</dimen>
+    <dimen name="view_horizontal_spacing_default">16dp</dimen>
+    <dimen name="view_vertical_spacing_default">16dp</dimen>
+    <dimen name="view_horizontal_spacing_medium">24dp</dimen>
+    <dimen name="view_vertical_spacing_medium">24dp</dimen>
+    <dimen name="view_horizontal_spacing_large">32dp</dimen>
+    <dimen name="view_vertical_spacing_large">32dp</dimen>
+    <dimen name="view_horizontal_spacing_larger">48dp</dimen>
+    <dimen name="view_vertical_spacing_larger">48dp</dimen>
+    <dimen name="view_horizontal_spacing_largest">64dp</dimen>
+    <dimen name="view_vertical_spacing_largest">64dp</dimen>
+
+    <!-- Default navigation drawer dimensions -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">180dp</dimen>
+
+    <!-- Custom component's dimensions -->
+    <dimen name="status_bar_height">28dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="recycler_view_bottom_spacing">80dp</dimen>
+
+    <!-- PDF -->
+    <dimen name="pdfPeferredEntryHeight">64dp</dimen>
+
+</resources>

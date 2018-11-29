@@ -1,0 +1,125 @@
+<!--
+  ~ The MIT License (MIT)
+  ~ Copyright (c) 2016 Ubiqueworks Ltd and contributors
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+  ~ files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+  ~ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  ~ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  ~ SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ~ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+  ~ OR OTHER DEALINGS IN THE SOFTWARE.
+  ~
+  -->
+
+<resources>
+    <string name="app_name">Neo Tree</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="label_menu_action_cancel">Cancel</string>
+    <string name="label_menu_action_home">Home</string>
+    <string name="label_menu_action_configuration">Configuration</string>
+    <string name="label_menu_action_logout">Logout</string>
+    <string name="label_menu_action_print">Print...</string>
+    <string name="label_menu_action_screen_info">More information...</string>
+    <string name="label_menu_action_script_cancel">Cancel script</string>
+    <string name="label_menu_action_session_history">History</string>
+    <string name="label_menu_action_refresh">Refresh</string>
+    <string name="label_menu_action_export">Export</string>
+    <string name="label_menu_action_delete_incomplete">Delete...</string>
+
+    <string name="label_login_email">Email</string>
+    <string name="label_login_password">Password</string>
+    <string name="label_login_action_submit">Login</string>
+
+    <string name="label_action_next">Next</string>
+    <string name="label_action_cancel">Cancel</string>
+    <string name="label_action_close">Close</string>
+    <string name="label_action_ok">OK</string>
+    <string name="label_not_set">N/A</string>
+    <string name="label_action_show">Show</string>
+    <string name="label_action_unlock">Unlock</string>
+    <string name="label_action_export">Export</string>
+
+    <string name="label_script_cancel_title">Cancel Script</string>
+    <string name="label_script_cancel_message">"You're about to exit the current script session. Are you sure?"</string>
+
+    <string name="label_realm_error_title">Security Error</string>
+    <string name="label_realm_error_message">"There was an error decrypting the database. The encryption key has become corrupted or it was tampered with.\n\nAll existing session data is now unrecoverable."</string>
+    <string name="label_realm_error_action">Reset &amp; Close</string>
+
+    <string name="label_screen_start_timer">Tap to start</string>
+    <string name="label_screen_stop_timer">Tap to stop</string>
+
+    <string name="label_field_hint_date">Date</string>
+    <string name="label_field_hint_time">Time</string>
+    <string name="label_field_dropdown_title">Select an option</string>
+    <string name="label_field_period_too_low">Less than an hour</string>
+
+    <string name="label_checkitem_positive">Yes</string>
+    <string name="label_checkitem_negative">No</string>
+
+    <string name="label_session_item_session_id">Session ID</string>
+    <string name="label_session_item_script_title">Script</string>
+    <string name="label_session_item_start_date">Creation date</string>
+    <string name="label_session_item_end_date">Completion date</string>
+
+    <string name="label_main_appinfo_title">App Info</string>
+    <string name="label_main_appinfo_message">"Package: %1$s\nVersion: %2$s\nBuild: %3$d"</string>
+
+    <string name="label_export_with_confidential">Export all data</string>
+    <string name="label_export_without_confidential">Export without confidential data</string>
+
+    <string name="label_export_select_format">Select export format</string>
+    <string name="label_export_excel">Excel Spreadsheet</string>
+    <string name="label_export_json">JSON</string>
+
+    <string name="label_history_delete_title">Permanently delete</string>
+    <string name="label_history_delete_incomplete">Incomplete sessions</string>
+    <string name="label_history_delete_all">ALL sessions</string>
+
+    <string name="label_diagnosis_title_diagnoses">Diagnoses</string>
+    <string name="label_diagnosis_title_management">Management</string>
+
+    <string name="message_session_delete_single">Delete selected session?</string>
+
+    <string name="message_confidential_data_hidden">Confidential data is hidden</string>
+    <string name="message_snackbar_beginning_of_script">Beginning of script</string>
+    <string name="message_snackbar_end_of_script">End of script</string>
+    <string name="message_snackbar_export_done">Export completed for script</string>
+
+    <string name="title_activity_configuration">Configuration</string>
+    <string name="title_activity_main">Scripts</string>
+    <string name="title_activity_session_history">Session History</string>
+    <string name="title_activity_session_detail">Session Detail</string>
+    <string name="title_activity_summary">Summary</string>
+    <string name="title_activity_export_settings">Export</string>
+
+    <string name="title_dialog_admin_unlock">Enter password</string>
+    <string name="title_dialog_info_text">Screen info</string>
+
+    <string name="title_tab_summary">Summary</string>
+    <string name="title_tab_diagnosis">Diagnoses</string>
+
+    <string name="pdf_label_title">Zomba Central Hospital Malawi</string>
+    <string name="pdf_label_subtitle">Ministry of Health - National Nursery Admission form</string>
+    <string name="pdf_label_session_id">Session ID</string>
+    <string name="pdf_label_creation_date">Creation date</string>
+    <string name="pdf_label_completion_date">Completion date</string>
+    <string name="pdf_label_printed_on">Printed on</string>
+    <string name="pdf_label_page">"Page %1$d of %2$d"</string>
+    <string name="pdf_label_signature_date">Signature date:</string>
+    <string name="pdf_label_signature">Signature:</string>
+    <string name="pdf_label_diagnosis_title">Diagnoses /Problem list</string>
+    <string name="pdf_label_management_title">Management</string>
+
+    <string name="error_invalid_password">Invalid password</string>
+
+</resources>
