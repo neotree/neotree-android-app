@@ -160,7 +160,7 @@ public class NeoTree extends MultiDexApplication {
 
         mRealmConfiguration = new RealmConfiguration.Builder()
                 .name("neotree.realm")
-               // .encryptionKey(encryptionKey)
+                .encryptionKey(encryptionKey)
                 .schemaVersion(getResources().getInteger(R.integer.realm_schema_version))
                 .migration(new NeoTreeRealmMigration())
                 .build();
