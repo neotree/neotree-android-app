@@ -21,6 +21,7 @@ package org.neotree.support;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -28,6 +29,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.security.SecureRandom;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by matteo on 21/09/2016.
@@ -45,11 +47,13 @@ public class SessionHelper {
         SharedPreferences.Editor edit = prefs.edit();
 
         boolean force = false;
-        int sequenceId = prefs.getInt(key, 0) + 1;
+       /* int sequenceId = prefs.getInt(key, 0) + 1;
         if (sequenceId < 99999) {
             sequenceId = 1;
             force = true;
-        }
+        }*/
+       int sequenceId = randomNumberGenerate();
+    //   int ran =randomNumberGenerate();
 
         String deviceId = prefs.getString(KEY_DEVICE_ID, null);
         if (deviceId == null || force || deviceId.length() != 3) {
@@ -59,6 +63,10 @@ public class SessionHelper {
         edit.putInt(key, sequenceId).apply();
 
         return String.format(Locale.getDefault(), "%05d", sequenceId);
+    }
+    public static int randomNumberGenerate() {
+        Random rand = new Random();
+        return rand.nextInt(900000000) + 100000000;
     }
 
     private static String generateDeviceId() {

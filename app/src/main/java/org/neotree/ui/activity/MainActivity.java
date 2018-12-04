@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -65,6 +66,8 @@ import org.neotree.support.rx.RxHelper;
 import org.neotree.ui.core.ButterknifeViewHolder;
 import org.neotree.ui.core.EnhancedActivity;
 
+import java.util.Random;
+
 import butterknife.BindView;
 
 public class MainActivity extends EnhancedActivity<ActivityComponent>
@@ -104,6 +107,8 @@ public class MainActivity extends EnhancedActivity<ActivityComponent>
         super.onCreateAfterSetContentView(savedInstanceState);
 
         setTitle(R.string.title_activity_main);
+
+
         setSupportActionBar(mToolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar,

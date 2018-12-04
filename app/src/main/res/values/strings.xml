@@ -108,7 +108,7 @@
     <string name="title_tab_summary">Summary</string>
     <string name="title_tab_diagnosis">Diagnoses</string>
 
-    <string name="pdf_label_title">Zomba Central Hospital Malawi</string>
+    <string name="pdf_label_title">NeoTree Neonatal Hospital Form</string>
     <string name="pdf_label_subtitle">Ministry of Health - National Nursery Admission form</string>
     <string name="pdf_label_session_id">Session ID</string>
     <string name="pdf_label_creation_date">Creation date</string>
