@@ -58,7 +58,7 @@ public class SessionHelper {
         }
         edit.putInt(key, sequenceId).apply();
 
-        return String.format(Locale.getDefault(), "%s-%05d", sequenceId);
+        return String.format(Locale.getDefault(), "%05d", sequenceId);
     }
 
     private static String generateDeviceId() {

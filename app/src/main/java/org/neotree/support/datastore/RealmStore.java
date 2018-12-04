@@ -149,10 +149,12 @@ public class RealmStore {
     }
 
     public static void loadSessions(Realm realm, RealmChangeListener<RealmResults<Session>> callback) {
-        RealmResults<Session> result = realm.where(Session.class)
-                .findAllAsync()
-                .sort("createdAt", Sort.DESCENDING);
+        RealmResults<Session> result = realm.where(Session.class).sort("createdAt", Sort.DESCENDING)
+                .findAllAsync();
+
         result.addChangeListener(callback);
+
+
     }
 
     public static Session loadSession(Realm realm, String sessionId) {
@@ -198,8 +200,8 @@ public class RealmStore {
         }
 
         RealmResults<SessionEntry> results = query
-                .findAll()
-                .sort("position", Sort.ASCENDING);
+
+                .sort("position", Sort.ASCENDING) .findAll();
         return realm.copyFromRealm(results);
     }
 

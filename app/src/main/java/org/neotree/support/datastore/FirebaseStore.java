@@ -141,6 +141,7 @@ public class FirebaseStore {
                 .map(result -> convertMapToList((Map<String, Script>) result))
                 .toBlocking()
                 .single();
+
     }
 
     public Observable<AdminPassword> observeAdminPassword() {

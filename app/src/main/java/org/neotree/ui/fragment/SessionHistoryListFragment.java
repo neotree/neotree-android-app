@@ -20,6 +20,7 @@
 package org.neotree.ui.fragment;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +36,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 
 import org.joda.time.DateTime;
 import org.neotree.NeoTree;
@@ -45,9 +51,15 @@ import org.neotree.model.realm.Session;
 import org.neotree.support.android.VerticalSpacingItemDecoration;
 import org.neotree.support.datastore.FirebaseStore;
 import org.neotree.support.datastore.RealmStore;
+import org.neotree.support.rx.RxFirebase;
+import org.neotree.support.rx.RxHelper;
+import org.neotree.support.rx.data.Pair;
 import org.neotree.ui.core.ButterknifeViewHolder;
 import org.neotree.ui.core.EnhancedFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +67,7 @@ import java.util.Map;
 import butterknife.BindView;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
+import rx.Observable;
 
 /**
  * Created by matteo on 20/09/2016.
@@ -62,6 +75,8 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class SessionHistoryListFragment extends EnhancedFragment
         implements View.OnClickListener, View.OnLongClickListener {
+    private static final String SCRIPTS = "scripts";
+    public static final GenericTypeIndicator TYPE_SCRIPTS_LIST = new GenericTypeIndicator<Map<String, Script>>() {};
 
     public static SessionHistoryListFragment newInstance() {
         Bundle args = new Bundle();
@@ -139,16 +154,45 @@ public class SessionHistoryListFragment extends EnhancedFragment
         }
     }
 
-    private void reloadSessions() {
+   /* private void reloadSessions() {
         RealmStore.loadSessions(getRealm(), result -> {
             if (result.isLoaded()) {
+
                 List<Script> scripts = FirebaseStore.get().loadScriptsSync();
                 mListAdapter = new SessionListAdapter(getActivity(), result, scripts);
                 mRecyclerView.setAdapter(mListAdapter);
                 result.removeAllChangeListeners();
             }
         });
+    }*/
+
+    private void reloadSessions() {
+        RealmStore.loadSessions(getRealm(), result -> {
+            if (result.isLoaded()) {
+
+                //  List<Script> scripts = FirebaseStore.get().loadScriptsSync();
+                DatabaseReference query = FirebaseDatabase.getInstance().getReference().child(SCRIPTS);
+                RxFirebase.observeOnce(query, TYPE_SCRIPTS_LIST)
+                        .subscribe(userData -> {
+                                    List<Script> script = convertMapToList((Map<String, Script>) userData);
+                                    mListAdapter = new SessionListAdapter(getActivity(), result, script);
+                                    mRecyclerView.setAdapter(mListAdapter);
+                                    result.removeAllChangeListeners();
+
+                                },
+                                throwable -> {Log.e("Error","Error");
+                                });
+
+            }
+        });
     }
+
+
+
+
+
+
+
 
     private void showDeleteConfirmation(Context context, final String sessionId) {
         final AlertDialog dialog = new AlertDialog.Builder(context)
@@ -234,5 +278,21 @@ public class SessionHistoryListFragment extends EnhancedFragment
             wrapper.setTag(tag);
         }
     }
+    private <K, V> List<V> convertMapToList(Map<K, V> map) {
+        return convertMapToList(map, null);
+    }
 
+    private <K, V> List<V> convertMapToList(Map<K, V> map, Comparator<V> comparator) {
+        final ArrayList<V> list = new ArrayList<>();
+        if (map != null) {
+            for (K key : map.keySet()) {
+                list.add(map.get(key));
+            }
+        }
+
+        if (comparator != null) {
+            Collections.sort(list, comparator);
+        }
+        return list;
+    }
 }
