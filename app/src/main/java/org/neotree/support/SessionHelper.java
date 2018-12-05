@@ -28,6 +28,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
@@ -45,29 +48,60 @@ public class SessionHelper {
     public static String uid(Context context, String key) {
         SharedPreferences prefs = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-
+         int incrementPart = 0;
         boolean force = false;
+        int sharedPrefIncrementValue = prefs.getInt(key,0 );
+        if( sharedPrefIncrementValue== 0){
+            incrementPart = 1;
+            edit.putInt(key,incrementPart);
+        }else{
+            if(sharedPrefIncrementValue >99999){
+                incrementPart = 1;
+                edit.putInt(key,incrementPart);
+            }else{
+                incrementPart = sharedPrefIncrementValue +1;
+                edit.putInt(key,incrementPart);
+
+            }
+
+
+        }
+        edit.commit();
+
        /* int sequenceId = prefs.getInt(key, 0) + 1;
         if (sequenceId < 99999) {
             sequenceId = 1;
             force = true;
         }*/
-       int sequenceId = randomNumberGenerate();
-    //   int ran =randomNumberGenerate();
+       long sequenceId = randomNumberGenerate();
+       String incrementId = String.format(Locale.getDefault(), "%05d", incrementPart);
 
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String currentDateandTime = sdf.format(new Date());
         String deviceId = prefs.getString(KEY_DEVICE_ID, null);
         if (deviceId == null || force || deviceId.length() != 3) {
             deviceId = generateDeviceId();
             edit.putString(KEY_DEVICE_ID, deviceId);
         }
-        edit.putInt(key, sequenceId).apply();
 
-        return String.format(Locale.getDefault(), "%05d", sequenceId);
+        String neotreeId = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID)+"-"+String.valueOf(sequenceId)+"-"+incrementId  ;
+
+
+        //return String.format(Locale.getDefault(), "%05d", sequenceId);
+        return neotreeId;
     }
-    public static int randomNumberGenerate() {
-        Random rand = new Random();
-        return rand.nextInt(900000000) + 100000000;
+
+    public static long randomNumberGenerate() {
+
+        Random r = new Random( System.currentTimeMillis() );
+        return 10000 + r.nextInt(20000);
+
     }
+
+
 
     private static String generateDeviceId() {
         return String.format(Locale.getDefault(), "%03d", sRandom.nextInt(999));
