@@ -55,7 +55,7 @@ public class SessionHelper {
             incrementPart = 1;
             edit.putInt(key,incrementPart);
         }else{
-            if(sharedPrefIncrementValue >99999){
+            if(sharedPrefIncrementValue >9999){
                 incrementPart = 1;
                 edit.putInt(key,incrementPart);
             }else{
@@ -74,7 +74,7 @@ public class SessionHelper {
             force = true;
         }*/
        long sequenceId = randomNumberGenerate();
-       String incrementId = String.format(Locale.getDefault(), "%05d", incrementPart);
+       String incrementId = String.format(Locale.getDefault(), "%04d", incrementPart);
 
 
 
@@ -86,8 +86,8 @@ public class SessionHelper {
             edit.putString(KEY_DEVICE_ID, deviceId);
         }
 
-        String neotreeId = Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID)+"-"+String.valueOf(sequenceId)+"-"+incrementId  ;
+        String neotreeId = getStringToken(Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID)).toUpperCase()+"-"+incrementId  ;
 
 
         //return String.format(Locale.getDefault(), "%05d", sequenceId);
@@ -105,6 +105,15 @@ public class SessionHelper {
 
     private static String generateDeviceId() {
         return String.format(Locale.getDefault(), "%03d", sRandom.nextInt(999));
+    }
+
+    public static String getStringToken(String  deviceToken) {
+        Random random = new Random();
+        StringBuilder token = new StringBuilder(4);
+        for (int i = 0; i < 4; i++) {
+            token.append(deviceToken.charAt(random.nextInt(deviceToken.length())));
+        }
+        return token.toString();
     }
 
 }
