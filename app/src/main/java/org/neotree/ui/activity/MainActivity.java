@@ -20,7 +20,9 @@
 package org.neotree.ui.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -47,7 +49,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.seismic.ShakeDetector;
 
 import org.neotree.NeoTree;
@@ -59,6 +66,7 @@ import org.neotree.model.firebase.Script;
 import org.neotree.support.android.AndroidHelper;
 import org.neotree.support.android.VerticalSpacingItemDecoration;
 import org.neotree.support.datastore.FirebaseStore;
+import org.neotree.support.datastore.RealmStore;
 import org.neotree.support.firebase.FirebaseRecyclerAdapter;
 import org.neotree.support.rx.RxBus;
 import org.neotree.support.rx.RxFirebase;
@@ -75,6 +83,10 @@ public class MainActivity extends EnhancedActivity<ActivityComponent>
 
     private static final int PLAY_SERVICES_REQUEST = 9000;
     private static final int LOGIN_REQUEST = 9001;
+    private static final String FILENAME = ".uid";
+    private static String SERVER_SESSIONID = "serversessionid";
+    public static String INCREMENTALPART ="incrementalpart";
+    private static String DEVICEHASH = "devicehash";
 
     @BindView(R.id.activity_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
@@ -248,29 +260,84 @@ public class MainActivity extends EnhancedActivity<ActivityComponent>
     private void initialize() {
         // Check play services are installed
         if (checkPlayServices()) {
-            addSubscription(
-                    RxFirebase.observeAuthChange(FirebaseAuth.getInstance())
-                            .compose(RxHelper.applySchedulers())
-                            .subscribe(authResult -> {
-                                FirebaseUser user = authResult.getCurrentUser();
-                                if (user == null) {
-                                    // User is signed out
-                                    Log.d(logTag(), "onAuthStateChanged:signed_out");
-                                    showLoginActivity();
-                                    return;
-                                }
-                                // User is signed in
-                                // TODO: Disable for release ???
-                              //  Crashlytics.setUserIdentifier(user.getUid());
-                              //  Crashlytics.setUserEmail(user.getEmail());
+            if (!FirebaseStore.get().isInitialized()) {
+                FirebaseStore.get().initialize();
+            }
+            String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
 
-                                if (!FirebaseStore.get().isInitialized()) {
-                                    FirebaseStore.get().initialize();
-                                }
-                                Log.d(logTag(), "onAuthStateChanged:signed_in");
-                                registerListAdapter();
-                            })
-            );
+            addSubscription(FirebaseStore.get().observeScriptNeotreeId(deviceId).subscribe(value -> {
+                if(value == null){
+                    String deviceHash =  getStringToken(deviceId);
+                    FirebaseStore.get().adddeviceScriptDeviceHash(deviceHash,deviceId);
+                    SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putString(DEVICEHASH,deviceHash );
+                    edit.commit();
+                }else {
+
+                    if (!value.hasChild(DEVICEHASH)) {
+                        String deviceHash = getStringToken(deviceId);
+                        FirebaseStore.get().adddeviceScriptDeviceHash( deviceHash,deviceId);
+                        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = prefs.edit();
+                        edit.putString(DEVICEHASH, deviceHash);
+                        edit.commit();
+                    }else{
+                        String deviceHash = value.child(DEVICEHASH).getValue(String.class);
+                        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = prefs.edit();
+                        edit.putString(DEVICEHASH, deviceHash);
+                        edit.commit();
+                    }
+                    if (value.hasChild(INCREMENTALPART)) {
+                        Log.d("TAG", "Data isss" + value.child(INCREMENTALPART).getValue(String.class));
+                        String incrementValue = value.child(INCREMENTALPART).getValue(String.class);
+                        if (incrementValue != null) {
+                            SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = prefs.edit();
+                            edit.putInt(SERVER_SESSIONID, Integer.parseInt(incrementValue));
+                            edit.commit();
+                        }
+                    }
+                }
+
+
+                addSubscription(
+                        RxFirebase.observeAuthChange(FirebaseAuth.getInstance())
+                                .compose(RxHelper.applySchedulers())
+                                .subscribe(authResult -> {
+                                    FirebaseUser user = authResult.getCurrentUser();
+                                    if (user == null) {
+                                        // User is signed out
+                                        Log.d(logTag(), "onAuthStateChanged:signed_out");
+                                        showLoginActivity();
+                                        return;
+                                    }
+                                    // User is signed in
+                                    // TODO: Disable for release ???
+                                    //  Crashlytics.setUserIdentifier(user.getUid());
+                                    //  Crashlytics.setUserEmail(user.getEmail());
+
+                                    if (!FirebaseStore.get().isInitialized()) {
+                                        FirebaseStore.get().initialize();
+                                    }
+                                    Log.d(logTag(), "onAuthStateChanged:signed_in");
+                                    registerListAdapter();
+                                })
+                );
+
+
+            }));
+
+
+
+
+
+
+
+
+
         }
     }
 
@@ -363,5 +430,12 @@ public class MainActivity extends EnhancedActivity<ActivityComponent>
             wrapper.setTag(o);
         }
     }
-
+    public static String getStringToken(String  deviceToken) {
+        Random random = new Random();
+        StringBuilder token = new StringBuilder(4);
+        for (int i = 0; i < 4; i++) {
+            token.append(deviceToken.charAt(random.nextInt(deviceToken.length())));
+        }
+        return token.toString();
+    }
 }

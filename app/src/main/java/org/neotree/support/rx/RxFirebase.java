@@ -181,7 +181,7 @@ public class RxFirebase {
         return firebaseChildEvent -> firebaseChildEvent.eventType == eventType;
     }
 
-    public static Observable<DataSnapshot> observe(final Query query) {
+    public static Observable<DataSnapshot> observes(final Query query) {
         return Observable.create(new Observable.OnSubscribe<DataSnapshot>() {
             @Override
             public void call(final Subscriber<? super DataSnapshot> subscriber) {
@@ -210,6 +210,26 @@ public class RxFirebase {
                     public void onDataChange(DataSnapshot snapshot) {
                         if(snapshot != null) {
                             subscriber.onNext(snapshot.getValue(type));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        subscriber.onError(new DatabaseException(databaseError));
+                    }
+                });
+                subscriber.add(Subscriptions.create(() -> query.removeEventListener(listener)));
+            }
+        });
+    }public static <T> Observable<T> observeForNeotreeId(final Query query, GenericTypeIndicator<T> type) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(final Subscriber<? super T> subscriber) {
+                final ValueEventListener listener = query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if(snapshot != null) {
+                            subscriber.onNext(snapshot.getValue((Class<T>) String.class));
                         }
                     }
 

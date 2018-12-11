@@ -23,44 +23,46 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
+import org.neotree.support.datastore.FirebaseStore;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by matteo on 21/09/2016.
  */
 
 public class SessionHelper {
-
+    private static String DEVICEHASH = "devicehash";
+    public  CompositeSubscription mSubscription;
     private static final String FILENAME = ".uid";
     private static final String KEY_DEVICE_ID = "device_id";
+    private static String SERVER_SESSIONID = "serversessionid";
 
     private static SecureRandom sRandom = new SecureRandom();
 
     public static String uid(Context context, String key) {
+
         SharedPreferences prefs = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
          int incrementPart = 0;
+         String deviceHash =  prefs.getString(DEVICEHASH,null);
         boolean force = false;
-        int sharedPrefIncrementValue = prefs.getInt(key,0 );
+        int sharedPrefIncrementValue = prefs.getInt(SERVER_SESSIONID,0 );
         if( sharedPrefIncrementValue== 0){
             incrementPart = 1;
-            edit.putInt(key,incrementPart);
+            edit.putInt(SERVER_SESSIONID,incrementPart);
         }else{
             if(sharedPrefIncrementValue >9999){
                 incrementPart = 1;
-                edit.putInt(key,incrementPart);
+                edit.putInt(SERVER_SESSIONID,incrementPart);
             }else{
                 incrementPart = sharedPrefIncrementValue +1;
-                edit.putInt(key,incrementPart);
+                edit.putInt(SERVER_SESSIONID,incrementPart);
 
             }
 
@@ -75,10 +77,7 @@ public class SessionHelper {
         }*/
        long sequenceId = randomNumberGenerate();
        String incrementId = String.format(Locale.getDefault(), "%04d", incrementPart);
-
-
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String currentDateandTime = sdf.format(new Date());
         String deviceId = prefs.getString(KEY_DEVICE_ID, null);
         if (deviceId == null || force || deviceId.length() != 3) {
@@ -86,11 +85,22 @@ public class SessionHelper {
             edit.putString(KEY_DEVICE_ID, deviceId);
         }
 
-        String neotreeId = getStringToken(Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID)).toUpperCase()+"-"+incrementId  ;
+        /*String neotreeId = getStringToken(Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID)).toUpperCase()+"-"+incrementId  ; */
+
+        String neotreeId = deviceHash.toUpperCase()+"-"+incrementId  ;
+        FirebaseStore firreStore = new FirebaseStore();
+        firreStore.adddeviceScriptIncrementId(incrementId.toString(),Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID));
 
 
-        //return String.format(Locale.getDefault(), "%05d", sequenceId);
+
+
+
+
+
+
+
         return neotreeId;
     }
 
@@ -115,5 +125,10 @@ public class SessionHelper {
         }
         return token.toString();
     }
-
+    public  void addSubscription(Subscription subscription) {
+        if (mSubscription == null) {
+            mSubscription = new CompositeSubscription();
+        }
+        mSubscription.add(subscription);
+    }
 }

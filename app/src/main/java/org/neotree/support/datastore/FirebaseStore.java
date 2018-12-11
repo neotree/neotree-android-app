@@ -21,6 +21,7 @@ package org.neotree.support.datastore;
 
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
@@ -30,6 +31,7 @@ import org.neotree.model.firebase.ConfigKey;
 import org.neotree.model.firebase.Diagnosis;
 import org.neotree.model.firebase.Screen;
 import org.neotree.model.firebase.Script;
+import org.neotree.model.firebase.ScriptNeotreeId;
 import org.neotree.support.rx.RxFirebase;
 
 import java.util.ArrayList;
@@ -51,8 +53,9 @@ public class FirebaseStore {
     private static final String TAG = FirebaseStore.class.getSimpleName();
 
     private static final String PATH_SEPARATOR = "/";
-
+    private static String DEVICEHASH = "devicehash";
     private static final String ADMIN_PASSWORD = "adminpassword";
+    public static final String NEOTREE_ID="devicescriptid";
     private static final String CONFIG_KEYS = "configkeys";
     private static final String DIAGNOSIS = "diagnosis";
     private static final String SCREEENS = "screens";
@@ -61,6 +64,7 @@ public class FirebaseStore {
     private static final String ORDER_BY_FIELD = "position";
 
     public static final GenericTypeIndicator TYPE_ADMIN_PASSWORD = new GenericTypeIndicator<AdminPassword>() {};
+    public static final GenericTypeIndicator TYPE_NEOTREEID_INCREMENT= new GenericTypeIndicator<String>() {};
     public static final GenericTypeIndicator TYPE_CONFIG_KEY = new GenericTypeIndicator<ConfigKey>() {};
     public static final GenericTypeIndicator TYPE_CONFIG_KEYS_LIST = new GenericTypeIndicator<Map<String, ConfigKey>>() {};
     public static final GenericTypeIndicator TYPE_DIAGNOSIS = new GenericTypeIndicator<Diagnosis>() {};
@@ -97,7 +101,7 @@ public class FirebaseStore {
         }
     };
 
-    private FirebaseStore() {
+    public FirebaseStore() {
 
     }
 
@@ -148,6 +152,10 @@ public class FirebaseStore {
         //noinspection unchecked
         return RxFirebase.observe(query(ADMIN_PASSWORD), TYPE_ADMIN_PASSWORD);
     }
+    public Observable<DataSnapshot> observeScriptNeotreeId(String deviceId) {
+        //noinspection unchecked
+        return RxFirebase.observes(queryNeotreeId(deviceId));
+    }
 
     public Observable<RxFirebase.FirebaseChildEvent<Script>> observeScripts() {
         //noinspection unchecked
@@ -164,6 +172,8 @@ public class FirebaseStore {
 //        return RxFirebase.observe(queryScreens(), TYPE_SCREEN);
 //    }
 //
+
+
     public Observable<List<Screen>> loadScreens(String scriptId) {
         //noinspection unchecked
         return RxFirebase.observeOnce(queryScreens(scriptId), TYPE_SCREENS_LIST)
@@ -216,6 +226,10 @@ public class FirebaseStore {
 
     public Query queryDiagnosis(String scriptId, String diagnosisId) {
         return query(DIAGNOSIS, scriptId, diagnosisId);
+    }
+
+    public Query queryNeotreeId(String deviceId ) {
+        return query(NEOTREE_ID, deviceId);
     }
 
     private Query query(String collection, String... params) {
@@ -342,7 +356,7 @@ public class FirebaseStore {
         return list;
     }
 
-    private void addSubscription(Subscription subscription) {
+    public void addSubscription(Subscription subscription) {
         if (mSubscription == null) {
             mSubscription = new CompositeSubscription();
         }
@@ -370,6 +384,28 @@ public class FirebaseStore {
         if (subscription != null) {
             removeSubscription(subscription);
         }
+    }
+
+    public  void  adddeviceScriptIncrementId(String incrementId,String  deviceId){
+        if (!get().isInitialized()) {
+            get().initialize();
+
+        }
+        if(mDatabase == null){
+            mDatabase = FirebaseDatabase.getInstance();
+        }
+        mDatabase.getReference().child("devicescriptid").child(deviceId).child("incrementalpart").setValue(incrementId);
+
+    }public  void  adddeviceScriptDeviceHash(String hashId,String  deviceId){
+        if (!get().isInitialized()) {
+            get().initialize();
+
+        }
+        if(mDatabase == null){
+            mDatabase = FirebaseDatabase.getInstance();
+        }
+        mDatabase.getReference().child("devicescriptid").child(deviceId).child(DEVICEHASH).setValue(hashId);
+
     }
 
 }

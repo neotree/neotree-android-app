@@ -21,8 +21,14 @@ package org.neotree.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.EditText;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import org.neotree.R;
@@ -36,6 +42,7 @@ import butterknife.BindView;
  * Created by matteo on 17/07/2016.
  */
 public class TextFieldView extends FieldView<CharSequence> {
+    public CharSequence value;
 
     @BindView(R.id.field_text_input)
     EditText mValueInput;
@@ -78,13 +85,17 @@ public class TextFieldView extends FieldView<CharSequence> {
 
     @Override
     protected CharSequence restoreValue() {
-        CharSequence value = super.restoreValue();
+        value = super.restoreValue();
         if (value == null && getField().defaultValue != null) {
             DefaultValueType type = DefaultValueType.fromString(getField().defaultValue);
             switch (type) {
                 case UID:
                     value = SessionHelper.uid(getContext(), getField().key);
-                    break;
+
+
+
+
+
             }
         }
         return value;
