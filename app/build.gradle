@@ -3,22 +3,35 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
+    buildToolsVersion "28.0.3"
+    //compileSdkVersion 25
+    //buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "org.neotree"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 44
-        versionName "0.3.4"
+        versionCode 45
+        versionName "0.3.5"
 
         multiDexEnabled true
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     signingConfigs {
         debug {
             storeFile file("certs/neotree-debug.keystore")
@@ -26,9 +39,9 @@ android {
 
         release {
             storeFile file("certs/neotree-release.keystore")
-            storePassword System.getenv("NEOTREE_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("NEOTREE_KEY_ALIAS")
-            keyPassword System.getenv("NEOTREE_KEY_PASSWORD")
+            storePassword System.getenv("38A5KFrf5Q7eZGhe")
+            keyAlias System.getenv("neotree")
+            keyPassword System.getenv("j5VquDvLeBNPZz79")
         }
     }
 
@@ -48,10 +61,22 @@ android {
 
         release {
             versionNameSuffix "-REL"
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+       /* staging {
+            ext.betaDistributionGroupAliases="alpha-group"
+            versionNameSuffix "-STG"
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }*/
+
     }
 }
 

@@ -19,5 +19,5 @@
   -->
 
 <resources>
-    <bool name="enable_live_editing">true</bool>
+    <bool name="enable_live_editing">false</bool>
 </resources>

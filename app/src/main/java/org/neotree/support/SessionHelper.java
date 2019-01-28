@@ -69,47 +69,20 @@ public class SessionHelper {
 
         }
         edit.commit();
-
-       /* int sequenceId = prefs.getInt(key, 0) + 1;
-        if (sequenceId < 99999) {
-            sequenceId = 1;
-            force = true;
-        }*/
-       long sequenceId = randomNumberGenerate();
-       String incrementId = String.format(Locale.getDefault(), "%04d", incrementPart);
-       SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String currentDateandTime = sdf.format(new Date());
+        String incrementId = String.format(Locale.getDefault(), "%04d", incrementPart);
         String deviceId = prefs.getString(KEY_DEVICE_ID, null);
         if (deviceId == null || force || deviceId.length() != 3) {
             deviceId = generateDeviceId();
             edit.putString(KEY_DEVICE_ID, deviceId);
         }
-
-        /*String neotreeId = getStringToken(Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID)).toUpperCase()+"-"+incrementId  ; */
-
         String neotreeId = deviceHash.toUpperCase()+"-"+incrementId  ;
         FirebaseStore firreStore = new FirebaseStore();
         firreStore.adddeviceScriptIncrementId(incrementId.toString(),Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID));
-
-
-
-
-
-
-
-
-
         return neotreeId;
     }
 
-    public static long randomNumberGenerate() {
 
-        Random r = new Random( System.currentTimeMillis() );
-        return 10000 + r.nextInt(20000);
-
-    }
 
 
 
@@ -117,14 +90,7 @@ public class SessionHelper {
         return String.format(Locale.getDefault(), "%03d", sRandom.nextInt(999));
     }
 
-    public static String getStringToken(String  deviceToken) {
-        Random random = new Random();
-        StringBuilder token = new StringBuilder(4);
-        for (int i = 0; i < 4; i++) {
-            token.append(deviceToken.charAt(random.nextInt(deviceToken.length())));
-        }
-        return token.toString();
-    }
+
     public  void addSubscription(Subscription subscription) {
         if (mSubscription == null) {
             mSubscription = new CompositeSubscription();

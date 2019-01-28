@@ -19,5 +19,5 @@
   -->
 
 <resources>
-    <bool name="enable_live_editing">fasle</bool>
+    <bool name="enable_live_editing">true</bool>
 </resources>

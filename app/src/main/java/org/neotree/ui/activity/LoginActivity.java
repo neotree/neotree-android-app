@@ -84,8 +84,9 @@ public class LoginActivity extends EnhancedActivity<ActivityComponent> {
                 .subscribe(valid -> mLoginAction.setEnabled(valid)));
 
         if (getResources().getBoolean(R.bool.enable_dummy_data)) {
-            mEmailInput.setText("balakrishnan3088@gmail.com");
-            mPasswordInput.setText("Test123!@#");
+            mEmailInput.setText("tablet@neotree.org");
+            mPasswordInput.setText("1alexflemming2");
+
         }
     }
 

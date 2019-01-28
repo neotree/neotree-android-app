@@ -260,47 +260,10 @@ public class MainActivity extends EnhancedActivity<ActivityComponent>
     private void initialize() {
         // Check play services are installed
         if (checkPlayServices()) {
-            if (!FirebaseStore.get().isInitialized()) {
+          /*  if (!FirebaseStore.get().isInitialized()) {
                 FirebaseStore.get().initialize();
-            }
-            String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
+            }*/
 
-            addSubscription(FirebaseStore.get().observeScriptNeotreeId(deviceId).subscribe(value -> {
-                if(value == null){
-                    String deviceHash =  getStringToken(deviceId);
-                    FirebaseStore.get().adddeviceScriptDeviceHash(deviceHash,deviceId);
-                    SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(DEVICEHASH,deviceHash );
-                    edit.commit();
-                }else {
-
-                    if (!value.hasChild(DEVICEHASH)) {
-                        String deviceHash = getStringToken(deviceId);
-                        FirebaseStore.get().adddeviceScriptDeviceHash( deviceHash,deviceId);
-                        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putString(DEVICEHASH, deviceHash);
-                        edit.commit();
-                    }else{
-                        String deviceHash = value.child(DEVICEHASH).getValue(String.class);
-                        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putString(DEVICEHASH, deviceHash);
-                        edit.commit();
-                    }
-                    if (value.hasChild(INCREMENTALPART)) {
-                        Log.d("TAG", "Data isss" + value.child(INCREMENTALPART).getValue(String.class));
-                        String incrementValue = value.child(INCREMENTALPART).getValue(String.class);
-                        if (incrementValue != null) {
-                            SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                            SharedPreferences.Editor edit = prefs.edit();
-                            edit.putInt(SERVER_SESSIONID, Integer.parseInt(incrementValue));
-                            edit.commit();
-                        }
-                    }
-                }
 
 
                 addSubscription(
@@ -322,6 +285,45 @@ public class MainActivity extends EnhancedActivity<ActivityComponent>
                                     if (!FirebaseStore.get().isInitialized()) {
                                         FirebaseStore.get().initialize();
                                     }
+                                    String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                                            Settings.Secure.ANDROID_ID);
+
+                                    addSubscription(FirebaseStore.get().observeScriptNeotreeId(deviceId).subscribe(value -> {
+                                        if(value == null){
+                                            String deviceHash =  getStringToken(deviceId);
+                                            FirebaseStore.get().adddeviceScriptDeviceHash(deviceHash,deviceId);
+                                            SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor edit = prefs.edit();
+                                            edit.putString(DEVICEHASH,deviceHash );
+                                            edit.commit();
+                                        }else {
+
+                                            if (!value.hasChild(DEVICEHASH)) {
+                                                String deviceHash = getStringToken(deviceId);
+                                                FirebaseStore.get().adddeviceScriptDeviceHash( deviceHash,deviceId);
+                                                SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor edit = prefs.edit();
+                                                edit.putString(DEVICEHASH, deviceHash);
+                                                edit.commit();
+                                            }else{
+                                                String deviceHash = value.child(DEVICEHASH).getValue(String.class);
+                                                SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor edit = prefs.edit();
+                                                edit.putString(DEVICEHASH, deviceHash);
+                                                edit.commit();
+                                            }
+                                            if (value.hasChild(INCREMENTALPART)) {
+                                                Log.d("TAG", "Data isss" + value.child(INCREMENTALPART).getValue(String.class));
+                                                String incrementValue = value.child(INCREMENTALPART).getValue(String.class);
+                                                if (incrementValue != null) {
+                                                    SharedPreferences prefs = getApplicationContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                                                    SharedPreferences.Editor edit = prefs.edit();
+                                                    edit.putInt(SERVER_SESSIONID, Integer.parseInt(incrementValue));
+                                                    edit.commit();
+                                                }
+                                            }
+                                        }
+
                                     Log.d(logTag(), "onAuthStateChanged:signed_in");
                                     registerListAdapter();
                                 })

@@ -154,18 +154,6 @@ public class SessionHistoryListFragment extends EnhancedFragment
         }
     }
 
-   /* private void reloadSessions() {
-        RealmStore.loadSessions(getRealm(), result -> {
-            if (result.isLoaded()) {
-
-                List<Script> scripts = FirebaseStore.get().loadScriptsSync();
-                mListAdapter = new SessionListAdapter(getActivity(), result, scripts);
-                mRecyclerView.setAdapter(mListAdapter);
-                result.removeAllChangeListeners();
-            }
-        });
-    }*/
-
     private void reloadSessions() {
         RealmStore.loadSessions(getRealm(), result -> {
             if (result.isLoaded()) {
