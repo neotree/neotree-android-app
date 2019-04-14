@@ -39,9 +39,9 @@ android {
 
         release {
             storeFile file("certs/neotree-release.keystore")
-            storePassword System.getenv("38A5KFrf5Q7eZGhe")
+            storePassword System.getenv("<replace>")
             keyAlias System.getenv("neotree")
-            keyPassword System.getenv("j5VquDvLeBNPZz79")
+            keyPassword System.getenv("<replace>")
         }
     }
 
@@ -113,6 +113,9 @@ dependencies {
     implementation 'io.reactivex:rxjava:1.1.7'
     implementation 'io.realm:android-adapters:2.1.1'
     implementation 'com.mittsu:markedview:1.0.4'
+
+    implementation 'com.squareup.okio:okio:2.2.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true

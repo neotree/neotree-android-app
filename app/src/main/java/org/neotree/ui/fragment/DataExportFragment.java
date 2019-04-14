@@ -16,7 +16,6 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
 package org.neotree.ui.fragment;
 
 import android.annotation.TargetApi;
@@ -53,6 +52,7 @@ import org.neotree.player.type.DataType;
 import org.neotree.player.type.ScreenType;
 import org.neotree.support.datastore.FirebaseStore;
 import org.neotree.support.datastore.RealmStore;
+import org.neotree.support.okhttp.APIGatewayHelper;
 import org.neotree.support.rx.RxHelper;
 import org.neotree.support.rx.data.Pair;
 import org.neotree.ui.core.EnhancedFragment;
@@ -399,7 +399,7 @@ public class DataExportFragment extends EnhancedFragment {
         return true;
     }
 
-    private boolean exportAsJson(ExportData exportData) {
+    public boolean exportAsJson(ExportData exportData) {
         if (exportData.getEntries() == null || exportData.getEntries().size() == 0) {
             Log.d(TAG, "Nothing to export for script");
             return false;
@@ -416,24 +416,46 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
+        String postUrl = "<replace>";
+        APIGatewayHelper apiCall = new APIGatewayHelper();
+        String currentUIDinLoop = "";
+        String postUrlPlusUID = postUrl;
+
         for (SessionEntry entry : exportData.getEntries()) {
+            if (sessionId != null) {
+                if (currentUIDinLoop.length() > 0)
+                {
+                    postUrlPlusUID = postUrl + "?uid=\"" + currentUIDinLoop + "\"";
+                    currentUIDinLoop = "";
+                    boolean postResult = apiCall.postToApi(jsonSession, postUrlPlusUID);
+                    Log.d(TAG, Boolean.toString(postResult));
+                }
+
+
+            }
             if (sessionId == null || !sessionId.equals(entry.getSessionId())) {
                 if (jsonSession != null) {
                     jsonSessions.add(jsonSession);
                 }
                 sessionId = entry.getSessionId();
                 jsonSession = mapper.createObjectNode();
+
                 jsonSession.put("scriptTitle", sessionId);
 
                 ObjectNode jsonScript = jsonSession.putObject("script");
                 jsonScript.put("id", exportData.getScript().scriptId);
                 jsonScript.put("title", exportData.getScript().title);
 
+
                 jsonSessionEntries = jsonSession.putArray("entries");
             }
 
             jsonEntry = mapper.createObjectNode();
             jsonEntry.put("key", entry.getKey());
+            boolean foundUID = false;
+            if (new String(entry.getKey()).equals("UID")){
+                foundUID = true;
+            }
             jsonEntry.put("type", entry.getDataType());
             jsonEntryValues = jsonEntry.putArray("values");
 
@@ -464,6 +486,10 @@ public class DataExportFragment extends EnhancedFragment {
                         case STRING:
                         case ID:
                             jsonValue.put("value", value.getStringValue());
+                            if (foundUID == true)
+                            {
+                                currentUIDinLoop = value.getStringValue();
+                            }
                             break;
                         case NUMBER:
                             jsonValue.put("value", value.getDoubleValue());
@@ -523,6 +549,19 @@ public class DataExportFragment extends EnhancedFragment {
                     new String[] { exportFile.toString() }, null, (path, uri) -> {
                         Log.d(TAG, String.format("Success exporting data [path=%s, uri=%s]", path, uri));
                     });
+
+            // Iterate through output and post to API
+
+            //String getUrl = "https://jx4tbkldmb.execute-api.eu-west-2.amazonaws.com/latest/sessions/941";
+
+            //String postUrl = "https://qkjv08s97g.execute-api.eu-west-2.amazonaws.com/latest/sessions";
+
+            //APIGatewayHelper apiCall = new APIGatewayHelper();
+            //boolean getResult = apiCall.getFromApi(root, getUrl);
+            //Log.d(TAG, Boolean.toString(getResult));
+
+            //boolean postResult = apiCall.postToApi(root, postUrl);
+            //Log.d(TAG, Boolean.toString(postResult));
 
         } catch (IOException e) {
             Log.e(TAG, "Error exporting Excel file", e);
