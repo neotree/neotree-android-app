@@ -416,7 +416,7 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
-        String postUrl = "<replace>";
+        String postUrl = "https://qkjv08s97g.execute-api.eu-west-2.amazonaws.com/latest/sessions";
         APIGatewayHelper apiCall = new APIGatewayHelper();
         String currentUIDinLoop = "";
         String postUrlPlusUID = postUrl;
@@ -550,18 +550,7 @@ public class DataExportFragment extends EnhancedFragment {
                         Log.d(TAG, String.format("Success exporting data [path=%s, uri=%s]", path, uri));
                     });
 
-            // Iterate through output and post to API
-
-            //String getUrl = "https://jx4tbkldmb.execute-api.eu-west-2.amazonaws.com/latest/sessions/941";
-
-            //String postUrl = "https://qkjv08s97g.execute-api.eu-west-2.amazonaws.com/latest/sessions";
-
-            //APIGatewayHelper apiCall = new APIGatewayHelper();
-            //boolean getResult = apiCall.getFromApi(root, getUrl);
-            //Log.d(TAG, Boolean.toString(getResult));
-
-            //boolean postResult = apiCall.postToApi(root, postUrl);
-            //Log.d(TAG, Boolean.toString(postResult));
+           
 
         } catch (IOException e) {
             Log.e(TAG, "Error exporting Excel file", e);
