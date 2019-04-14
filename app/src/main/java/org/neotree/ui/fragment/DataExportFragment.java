@@ -416,7 +416,7 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
-        String postUrl = "https://qkjv08s97g.execute-api.eu-west-2.amazonaws.com/latest/sessions";
+        String postUrl = "<replace>";
         APIGatewayHelper apiCall = new APIGatewayHelper();
         String currentUIDinLoop = "";
         String postUrlPlusUID = postUrl;
@@ -550,7 +550,7 @@ public class DataExportFragment extends EnhancedFragment {
                         Log.d(TAG, String.format("Success exporting data [path=%s, uri=%s]", path, uri));
                     });
 
-           
+
 
         } catch (IOException e) {
             Log.e(TAG, "Error exporting Excel file", e);
