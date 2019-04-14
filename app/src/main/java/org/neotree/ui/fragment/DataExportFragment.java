@@ -416,7 +416,7 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
-        String postUrl = "<replace>";
+        String postUrl = "<replaceme>";
         APIGatewayHelper apiCall = new APIGatewayHelper();
         String currentUIDinLoop = "";
         String postUrlPlusUID = postUrl;
