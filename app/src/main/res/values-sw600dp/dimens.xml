@@ -22,7 +22,7 @@
     <dimen name="font_size_body_small">18sp</dimen>
     <dimen name="font_size_body">22sp</dimen>
     <dimen name="font_size_caption">16sp</dimen>
-    <dimen name="font_size_label">20sp</dimen>
+    <dimen name="font_size_label">16sp</dimen>
     <dimen name="font_size_summary">20sp</dimen>
     <dimen name="font_size_title">22sp</dimen>
 

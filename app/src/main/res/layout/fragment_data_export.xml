@@ -80,8 +80,17 @@
                         android:id="@+id/export_radio_format_json"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/view_vertical_spacing_small"
                         android:textAppearance="@style/TextAppearance.NeoTree.Body.Black"
                         android:text="@string/label_export_json"/>
+
+                    <RadioButton
+                        android:id="@+id/export_radio_format_jsonapi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/view_vertical_spacing_small"
+                        android:textAppearance="@style/TextAppearance.NeoTree.Body.Black"
+                        android:text="JSONAPI"/>
 
                 </RadioGroup>
 

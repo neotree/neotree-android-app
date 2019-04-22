@@ -43,7 +43,12 @@ import rx.Observable;
 /**
  * Created by matteo on 02/08/2016.
  */
+
+
+
 public class LoginActivity extends EnhancedActivity<ActivityComponent> {
+
+    public static String auth0key;
 
     @BindView(R.id.login_error_text)
     TextView mErrorText;
@@ -51,6 +56,8 @@ public class LoginActivity extends EnhancedActivity<ActivityComponent> {
     EditText mEmailInput;
     @BindView(R.id.login_password)
     EditText mPasswordInput;
+    @BindView(R.id.auth0_key)
+    EditText mAuth0Input;
     @BindView(R.id.login_action_button)
     Button mLoginAction;
 
@@ -105,7 +112,7 @@ public class LoginActivity extends EnhancedActivity<ActivityComponent> {
     public void onLoginActionClick() {
         final String username = mEmailInput.getText().toString();
         final String password = mPasswordInput.getText().toString();
-
+        auth0key = mAuth0Input.getText().toString();
         Log.d(logTag(), "Signing in with email and password");
         addSubscription(
                 RxFirebase.authenticateWithEmailAndPassword(mFirebaseAuth, username, password)

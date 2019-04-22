@@ -734,7 +734,7 @@ public class SummaryPrintDocumentAdapter extends PrintDocumentAdapter {
                     }
 
                     SessionEntry entry = (SessionEntry) getItem(position);
-
+                    //TODO:Program pdf size
                     TextView textEntryLabel = (TextView) convertView.findViewById(R.id.pdf_entry_label);
                     textEntryLabel.setText(entry.getLabel());
 

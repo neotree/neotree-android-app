@@ -39,9 +39,9 @@ android {
 
         release {
             storeFile file("certs/neotree-release.keystore")
-            storePassword System.getenv("<replace>")
+            storePassword System.getenv("38A5KFrf5Q7eZGhe")
             keyAlias System.getenv("neotree")
-            keyPassword System.getenv("<replace>")
+            keyPassword System.getenv("j5VquDvLeBNPZz79")
         }
     }
 

@@ -56,6 +56,7 @@ import org.neotree.support.okhttp.APIGatewayHelper;
 import org.neotree.support.rx.RxHelper;
 import org.neotree.support.rx.data.Pair;
 import org.neotree.ui.core.EnhancedFragment;
+import org.neotree.ui.activity.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class DataExportFragment extends EnhancedFragment {
     private static final int REQUEST_WRITE_STORAGE = 1000;
 
     private enum ExportFormat {
-        EXCEL, JSON
+        EXCEL, JSON, JSONAPI
     }
 
     public static DataExportFragment newInstance() {
@@ -97,6 +98,8 @@ public class DataExportFragment extends EnhancedFragment {
     RadioButton mExcelRadioButton;
     @BindView(R.id.export_radio_format_json)
     RadioButton mJsonRadioButton;
+    @BindView(R.id.export_radio_format_jsonapi)
+    RadioButton mJsonapiRadioButton;
     @BindView(R.id.export_export_action)
     Button mExportButton;
     @BindView(R.id.export_wip_overlay)
@@ -150,12 +153,14 @@ public class DataExportFragment extends EnhancedFragment {
         }
     }
 
-    @OnClick({R.id.export_radio_format_excel, R.id.export_radio_format_json})
+    @OnClick({R.id.export_radio_format_excel, R.id.export_radio_format_json, R.id.export_radio_format_jsonapi})
     void onOutputFormatClick(View v) {
         if (v == mExcelRadioButton) {
             mExportFormat = ExportFormat.EXCEL;
         } else if (v == mJsonRadioButton) {
             mExportFormat = ExportFormat.JSON;
+        } else if (v == mJsonapiRadioButton) {
+            mExportFormat = ExportFormat.JSONAPI;
         }
     }
 
@@ -218,7 +223,9 @@ public class DataExportFragment extends EnhancedFragment {
             case EXCEL:
                 return exportAsExcelSpreadsheet(exportData);
             case JSON:
-                return exportAsJson(exportData);
+                return exportAsJson(exportData, false);
+            case JSONAPI:
+                return exportAsJson(exportData, true);
             default:
                 return false;
         }
@@ -399,7 +406,7 @@ public class DataExportFragment extends EnhancedFragment {
         return true;
     }
 
-    public boolean exportAsJson(ExportData exportData) {
+    public boolean exportAsJson(ExportData exportData, Boolean sendToApi) {
         if (exportData.getEntries() == null || exportData.getEntries().size() == 0) {
             Log.d(TAG, "Nothing to export for script");
             return false;
@@ -416,26 +423,21 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
-        String postUrl = "<replaceme>";
+        String postUrl = "<API-GATEWAY-ADDRESS>";
         APIGatewayHelper apiCall = new APIGatewayHelper();
         String currentUIDinLoop = "";
+        String currentScriptId = "";
         String postUrlPlusUID = postUrl;
+        String auth0BearerKey = LoginActivity.auth0key;
 
         for (SessionEntry entry : exportData.getEntries()) {
-            if (sessionId != null) {
-                if (currentUIDinLoop.length() > 0)
-                {
-                    postUrlPlusUID = postUrl + "?uid=\"" + currentUIDinLoop + "\"";
-                    currentUIDinLoop = "";
-                    boolean postResult = apiCall.postToApi(jsonSession, postUrlPlusUID);
-                    Log.d(TAG, Boolean.toString(postResult));
-                }
 
-
-            }
             if (sessionId == null || !sessionId.equals(entry.getSessionId())) {
                 if (jsonSession != null) {
                     jsonSessions.add(jsonSession);
+                }
+                else {
+                    Log.d(TAG, "Looping with sessionID as null");
                 }
                 sessionId = entry.getSessionId();
                 jsonSession = mapper.createObjectNode();
@@ -444,6 +446,7 @@ public class DataExportFragment extends EnhancedFragment {
 
                 ObjectNode jsonScript = jsonSession.putObject("script");
                 jsonScript.put("id", exportData.getScript().scriptId);
+                currentScriptId = exportData.getScript().scriptId;
                 jsonScript.put("title", exportData.getScript().title);
 
 
@@ -453,7 +456,7 @@ public class DataExportFragment extends EnhancedFragment {
             jsonEntry = mapper.createObjectNode();
             jsonEntry.put("key", entry.getKey());
             boolean foundUID = false;
-            if (new String(entry.getKey()).equals("UID")){
+            if (new String(entry.getKey()).contains("UID")){
                 foundUID = true;
             }
             jsonEntry.put("type", entry.getDataType());
@@ -493,6 +496,10 @@ public class DataExportFragment extends EnhancedFragment {
                             break;
                         case NUMBER:
                             jsonValue.put("value", value.getDoubleValue());
+                            if (foundUID == true)
+                            {
+                                currentUIDinLoop = value.getDoubleValue().toString();
+                            }
                             break;
                         case PERIOD:
                         case TIME:
@@ -515,6 +522,20 @@ public class DataExportFragment extends EnhancedFragment {
 
                 default:
                     break;
+            }
+            if (sessionId != null && sendToApi && jsonSessionEntries.size() > 0) {
+                if (currentUIDinLoop.length() > 0)
+                {
+                    postUrlPlusUID = postUrl + "?uid=\"" + currentUIDinLoop + "\"&scriptId=\"" + currentScriptId + "\"";
+                    currentUIDinLoop = "";
+                    currentScriptId = "";
+                    boolean postResult = apiCall.postToApi(jsonSession, postUrlPlusUID, auth0BearerKey);
+                    Log.d(TAG, Boolean.toString(postResult));
+                }
+                else
+                {
+                    Log.d(TAG, "Looping without calling");
+                }
             }
         }
 

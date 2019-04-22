@@ -47,7 +47,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="2dp"
         android:orientation="vertical">
 
         <TextView
@@ -84,6 +84,24 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:hint="@string/label_login_password"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/auth0_key_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/auth0_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Auth0 Key"
+                android:inputType="textMultiLine"
+                android:maxHeight="@dimen/font_size_title"
+                android:maxLines="100"
+                android:textSize="8sp"
+                android:textStyle="normal" />
 
         </android.support.design.widget.TextInputLayout>
 

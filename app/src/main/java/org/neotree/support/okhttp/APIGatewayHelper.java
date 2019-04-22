@@ -43,10 +43,9 @@ public class APIGatewayHelper {
 
     public String txtString;
 
-    public String postBody="{\n" +
-            "    \"name\": \"Android\",\n" +
-            "    \"job\": \"ViaGatewayTest\"\n" +
-            "}";
+    public String apiKey = "<api key goes here>";
+    public String auth0token = "<auth 0 current token goes here with long exp for testing>";
+
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -60,10 +59,10 @@ public class APIGatewayHelper {
         return true;
     }
 
-    public boolean postToApi(ObjectNode requestPayload, String endpointUrl) {
+    public boolean postToApi(ObjectNode requestPayload, String endpointUrl, String BearerKey) {
 
         try {
-            makeApiPOSTCall(endpointUrl, requestPayload.toString());
+            makeApiPOSTCall(endpointUrl, BearerKey, requestPayload.toString());
             int size = requestPayload.size();
             //makeApiPOSTCall(endpointUrl, postBody);
         } catch (IOException e) {
@@ -79,6 +78,9 @@ public class APIGatewayHelper {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
+                .header("Content-Type", "application/json")
+                .header("x-api-key", apiKey)
+                .header("Authorization", auth0token)
                 .url(url)
                 .build();
 
@@ -99,16 +101,25 @@ public class APIGatewayHelper {
         });
     }
 
-    public void makeApiPOSTCall(String postUrl, String postBody) throws IOException {
-
+    public void makeApiPOSTCall(String postUrl, String authKey, String postBody) throws IOException {
+        if (authKey != null) {
+            if (authKey.length() > 1) {
+                auth0token = authKey;
+            }
+        }
         OkHttpClient client = new OkHttpClient();
 
         RequestBody body = RequestBody.create(JSON, postBody);
 
         Request request = new Request.Builder()
+                .header("Content-Type", "application/json")
+                .header("x-api-key", apiKey)
+                .header("Authorization", "Bearer " + auth0token)
                 .url(postUrl)
                 .post(body)
                 .build();
+
+        String APIKey = apiKey;
 
 
         client.newCall(request).enqueue(new Callback() {

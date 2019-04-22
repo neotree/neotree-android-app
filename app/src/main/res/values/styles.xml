@@ -148,10 +148,12 @@
     </style>
 
     <style name="TextAppearance.Pdf.Body" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="TextAppearance.Pdf.Body.Bold" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
