@@ -423,12 +423,14 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
-        String postUrl = "<API-GATEWAY-ADDRESS>";
+        String postUrl = "https://qkjv08s97g.execute-api.eu-west-2.amazonaws.com/latest/sessions";
         APIGatewayHelper apiCall = new APIGatewayHelper();
         String currentUIDinLoop = "";
         String currentScriptId = "";
         String postUrlPlusUID = postUrl;
         String auth0BearerKey = LoginActivity.auth0key;
+        boolean foundUID = false;
+        boolean endScriptDatetime = false;
 
         for (SessionEntry entry : exportData.getEntries()) {
 
@@ -455,9 +457,12 @@ public class DataExportFragment extends EnhancedFragment {
 
             jsonEntry = mapper.createObjectNode();
             jsonEntry.put("key", entry.getKey());
-            boolean foundUID = false;
-            if (new String(entry.getKey()).contains("UID")){
+            foundUID = false;
+            if (entry.getKey().contains("UID")){
                 foundUID = true;
+            }
+            if (entry.getKey().contains("EndScriptDatetime")){
+                endScriptDatetime = true;
             }
             jsonEntry.put("type", entry.getDataType());
             jsonEntryValues = jsonEntry.putArray("values");
@@ -492,13 +497,15 @@ public class DataExportFragment extends EnhancedFragment {
                             if (foundUID == true)
                             {
                                 currentUIDinLoop = value.getStringValue();
+                                //Log.d(TAG, String.format("currentUIDinLoop %s, currentUIDinLoop"));
                             }
                             break;
                         case NUMBER:
                             jsonValue.put("value", value.getDoubleValue());
-                            if (foundUID == true)
+                            if (foundUID == true && value.getBooleanValue())
                             {
                                 currentUIDinLoop = value.getDoubleValue().toString();
+                                //Log.d(TAG, String.format("currentUIDinLoop %s, currentUIDinLoop"));
                             }
                             break;
                         case PERIOD:
@@ -523,18 +530,21 @@ public class DataExportFragment extends EnhancedFragment {
                 default:
                     break;
             }
-            if (sessionId != null && sendToApi && jsonSessionEntries.size() > 0) {
-                if (currentUIDinLoop.length() > 0)
-                {
-                    postUrlPlusUID = postUrl + "?uid=\"" + currentUIDinLoop + "\"&scriptId=\"" + currentScriptId + "\"";
-                    currentUIDinLoop = "";
-                    currentScriptId = "";
-                    boolean postResult = apiCall.postToApi(jsonSession, postUrlPlusUID, auth0BearerKey);
-                    Log.d(TAG, Boolean.toString(postResult));
-                }
-                else
-                {
-                    Log.d(TAG, "Looping without calling");
+
+            if (currentUIDinLoop.length() > 0) {
+                if (sessionId != null && sendToApi) {
+                    Log.d(TAG, "The same or more SessionEntries >= export...size");
+                    Log.d(TAG, String.format("jsonSessionEntries.size() = %s, exportData.getEntries.size = %s]", jsonSessionEntries.size(), exportData.getEntries().size()));
+                    if (endScriptDatetime) {
+                        postUrlPlusUID = postUrl + "?uid=\"" + currentUIDinLoop + "\"&scriptId=\"" + currentScriptId + "\"";
+                        currentUIDinLoop = "";
+                        currentScriptId = "";
+                        endScriptDatetime = false;
+                        boolean postResult = apiCall.postToApi(jsonSession, postUrlPlusUID, auth0BearerKey);
+                        Log.d(TAG, Boolean.toString(postResult));
+                    } else {
+                        Log.d(TAG, "Looping without calling");
+                    }
                 }
             }
         }
