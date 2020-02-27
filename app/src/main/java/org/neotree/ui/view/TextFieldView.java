@@ -20,6 +20,8 @@
 package org.neotree.ui.view;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
@@ -57,6 +59,49 @@ public class TextFieldView extends FieldView<CharSequence> {
 
     public TextFieldView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mValueInput.addTextChangedListener(new TextWatcher() {
+            Boolean editing = false;
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String value = editable.toString();
+                value = parseNUID(value);
+                if (editing) return;
+                editing = true;
+                editable.clear();
+                editable.insert(0, value);
+                editing = false;
+            }
+        });
+    }
+
+    public String parseNUID(String s) {
+        if (!(getField().key.equals("NUID_S") || getField().key.equals("NUID_NS"))) return s;
+
+        s = s.replaceAll("[^a-fA-F0-9]", "");
+        String letters = "";
+        String digits = "";
+
+        for(int i = 0; i < s.length(); i++) {
+            if (i < 8) {
+                String letter = Character.toString(s.charAt((i)));
+                if (i < 4) {
+                    letters = letters + letter;
+                } else {
+                    digits = digits + letter;
+                    digits = digits.replaceAll("\\D", "");
+                }
+            }
+        }
+        s = letters + (digits.length() > 0 ? "-" : "") + digits;
+        s = s.toUpperCase();
+        return s;
     }
 
     @Override
