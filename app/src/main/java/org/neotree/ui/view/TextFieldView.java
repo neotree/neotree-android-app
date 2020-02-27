@@ -21,6 +21,7 @@ package org.neotree.ui.view;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -40,6 +41,9 @@ import org.neotree.support.SessionHelper;
 
 import butterknife.BindView;
 
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
+
 /**
  * Created by matteo on 17/07/2016.
  */
@@ -48,6 +52,8 @@ public class TextFieldView extends FieldView<CharSequence> {
 
     @BindView(R.id.field_text_input)
     EditText mValueInput;
+
+    private final BehaviorSubject<Boolean> mValidSubject = BehaviorSubject.create();
 
     public TextFieldView(Context context) {
         this(context, null);
@@ -111,6 +117,25 @@ public class TextFieldView extends FieldView<CharSequence> {
 
     @Override
     protected void onRegisterSubscribers(Field field) {
+        String errorMessage = "NeoTree ID must be 9 characters, eg AB2C-9756";
+
+        // Hide/show error message
+        Observable<Boolean> validRangeObservable = valueObservable().map((value) -> {
+            if (!TextUtils.isEmpty(value) &&
+                    (field.key.equals("NUID_S") || field.key.equals("NUID_NS"))) {
+                String v = (String) value;
+                if (v.length() < 9) return false;
+            }
+            return true;
+        });
+
+        setErrorText(errorMessage);
+
+        addSubscription(validRangeObservable.subscribe((valid) -> {
+            showError(!valid);
+            mValidSubject.onNext(valid);
+        }));
+
         // Publish value
         addSubscription(RxTextView.textChanges(mValueInput)
                 .map((input) -> (input.length() > 0) ? input.toString() : null)

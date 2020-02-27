@@ -133,11 +133,11 @@ public class FormManager {
                     }
                     return true;
                 })
-                .compose(RxHelper.applySchedulers())
+                        .compose(RxHelper.applySchedulers())
 //                .distinctUntilChanged()
-                .subscribe((result) -> {
-                    mFormValidSubject.onNext(result);
-                })
+                        .subscribe((result) -> {
+                            mFormValidSubject.onNext(result);
+                        })
         );
 
         // Subscribe to value changes
@@ -168,6 +168,7 @@ public class FormManager {
 
         for (int i = 0; i < fields.size(); i++) {
             final Field field = fields.get(i);
+            Log.v(TAG, "Editing the value on field [key=%s]**********" +field.key);
             boolean currentStatus = isFieldEnabled(i);
             boolean newStatus = evaluateFieldCondition(field);
             if (currentStatus != newStatus) {
@@ -176,11 +177,14 @@ public class FormManager {
 
                 // Reset value of disabled field
                 final String fieldKey = field.key;
+                if(field.key.equals("NIDNUM")){
+                    Log.v(TAG, "Editing the key NIDNUM");
+                }
                 if (!newStatus) {
                     mScriptPlayer.setValue(fieldKey, null);
                     mScriptPlayer.storeValue(mScreen.sectionTitle, RealmStore.getSessionValue(field, null));
                 }
-                
+
                 // Validate field when enabled
                 notifyValueChanged(new KeyValue(fieldKey, mScriptPlayer.getValue(fieldKey)));
             }
@@ -219,6 +223,10 @@ public class FormManager {
         return fieldValueSubject.map((fieldValue) -> {
             boolean enabled = mFieldEnabledStatuses.get(index);
             boolean isEmpty = TextUtils.isEmpty((String) fieldValue);
+            if (!isEmpty && (field.key.equals("NUID_S") || field.key.equals("NUID_NS"))) {
+                String v = (String) fieldValue;
+                if (v.replaceAll("[^a-fA-F0-9-]", "").length() < 9) return false;
+            }
             return (!enabled || field.isOptional() || !isEmpty);
         });
     }
