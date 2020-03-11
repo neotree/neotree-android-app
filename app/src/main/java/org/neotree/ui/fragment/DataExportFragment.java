@@ -423,7 +423,7 @@ public class DataExportFragment extends EnhancedFragment {
         ArrayNode jsonEntryValues;
         String sessionId = null;
 
-        String postUrl = "https://qkjv08s97g.execute-api.eu-west-2.amazonaws.com/latest/sessions";
+        String postUrl = "<post url>";
         APIGatewayHelper apiCall = new APIGatewayHelper();
         String currentUIDinLoop = "";
         String currentScriptId = "";
