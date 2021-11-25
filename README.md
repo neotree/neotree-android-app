@@ -1,4 +1,4 @@
-# NeoTree Android Client
+# Neotree Android Client
 
 ## Configuration
 
